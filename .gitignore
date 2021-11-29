@@ -1,0 +1,8 @@
+data/*
+data-raw/*
+documents/*
+misc/*
+results/*
+sessions/*
+TODO.txt
+!*/.keep
