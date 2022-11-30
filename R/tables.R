@@ -76,3 +76,7 @@ names(tbls) <- paste0("Table", 2:4)
 write_xlsx(tbls,
            paste0("results/tables_", format(Sys.Date(), "%Y%m%d"), ".xlsx"))
 
+# sessionInfo
+sink(paste0("results/sessinInfo_", format(Sys.Date(), "%Y%m%d"), ".txt"))
+print(sessionInfo(), locale = FALSE)
+sink()

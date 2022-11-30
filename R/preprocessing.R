@@ -221,6 +221,9 @@ L = list(
   religion = c(22, 27),
   self_blame = c(13, 26)
 )
+en_to_fr <- c(1, 20, 3, 4, 5, 6, 2, 21, 9, 10, 22, 11, 12, 13, 14,
+              15, 26, 16, 17, 8, 18, 7, 19, 23, 24, 25, 27, 28)
+L <- lapply(L, function(z) en_to_fr[z])
 for(v in names(L)) {
   x <- paste0("cope", L[[v]])
   dta_fm[[paste0("cope_", v)]] <- apply(dta_fm[x], 1, sum)
@@ -241,7 +244,7 @@ rm(L, v, x)
 # Scores: Family functionning
 # !!! ffcoll 5 items (not 4) !!!
 dta_fm <- within(dta_fm, {
-  ff_expressing_emotions = 
+  ff_expressing_emotions =
     apply(dta_fm[grep("^ffemo_[1-4]$", names(dta_fm))], 1, sum)
   ff_collabo = apply(dta_fm[grep("^ffcoll_[1-5]$", names(dta_fm))], 1, sum)
   ff_comm = apply(dta_fm[grep("^ffcomm_[1-4]$", names(dta_fm))], 1, sum)
