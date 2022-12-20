@@ -32,30 +32,25 @@ d <- dta_fm %>%
     name = factor(name, names(vars), vars)
   ) %>%
   drop_na(value)
-fig1 <- ggplot(d, aes(x = name, y = value, fill = phase)) +
-  geom_boxplot(position = position_dodge(width = .5), width = .4) +
-  labs(x = NULL, y = "Score", fill = NULL) +
-  scale_fill_manual(values = wes_palette(name = "Darjeeling1", n = 3)) +
-  theme_bw() +
-  theme(legend.position = "bottom")
-fig2 <- d %>%
+fig <- d %>%
   group_by(name, phase) %>%
-  summarise(Mean = mean(value), SD = sd(value), .groups = "drop") %>%
+  summarise(N = n(), Mean = mean(value), SD = sd(value), .groups = "drop") %>%
   ggplot(aes(x = name, y = Mean, color = phase)) +
   geom_point(position = position_dodge(width = .4)) +
   geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD),
                 position = position_dodge(width = .4), width = .2) +
+  geom_text(aes(label = N, y = Mean + SD + 2), show.legend = FALSE,
+            position = position_dodge(width = .4)) +
   labs(x = NULL, y = "Mean Score ± SD", color = NULL) +
   scale_color_manual(values = wes_palette(name = "Darjeeling1", n = 3)) +
   theme_bw() +
   theme(legend.position = "bottom")
 
 # Export figures
-tiff(file.path(outdir, "boxplots.tiff"), width = 2400, height = 1800,
-     res = 480, compression = "zip")
-print(fig1)
-dev.off()
 tiff(file.path(outdir, "means.tiff"), width = 2400, height = 1800,
      res = 480, compression = "zip")
-print(fig2)
+print(fig)
+dev.off()
+svg(file.path(outdir, "means.svg"), width = 6, height = 4.5)
+print(fig)
 dev.off()
